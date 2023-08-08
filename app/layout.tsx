@@ -44,7 +44,7 @@ export default function RootLayout({
   const setLinks: ReactNode =  links.map((link) => {
       return (
         <Link href={link.link} key={link.name}>
-          <div className='text-white p-2 px-5 bg-[#00b4d8] rounded-t hover:bg-[#90e0ef] duration-500'>
+          <div className='text-white p-2 px-5 bg-[#00b4d8] rounded-t hover:bg-[#254058] duration-500'>
             <p>{link.name}</p>
           </div>
       </Link>

@@ -26,18 +26,17 @@ export function Card(props:myProps) {
     props.setToggle((o:number) => o+1)
   }
 
-  const [img, setImg] = React.useState()
+  const [img, setImg] = React.useState<string>()
 
   React.useEffect(() => {
     (async () => {
       if(props.img) {
         const getImg = await db.getImg(props.img)
-        console.log(getImg)
         setImg(getImg)
       }
     })()
 
-  }, [])
+  })
 
 
 
@@ -50,7 +49,7 @@ export function Card(props:myProps) {
       {props.link && (<Link href={props.link} target='_blank'><p className='underline'>{props.link.toString()}</p></Link>) }
       <p className='whitespace-pre-line'>{props.text}</p>
 
-      {props.img && (<Image src={img} alt='' width={500} height={500} className='rounded'/>)}
+      {img && (<Image src={img} alt='' width={500} height={500} className='rounded'/>)}
     </div>
   )
 }

@@ -26,7 +26,7 @@ interface secDat {
 export function Section(props:myProps) {
 
   const [isBuilding, setIsBuilding] = React.useState<boolean>(false)
-  const [img, setImg] = React.useState()
+  const [img, setImg] = React.useState<string | null>()
 
   const [newCard, setNewCard] = React.useState<card>({
     title: '',
@@ -40,7 +40,6 @@ export function Section(props:myProps) {
 
     if (name == 'img') {
       setImg(e.target.files[0])
-      console.log(img)
       return
     }else {
 
