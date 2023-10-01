@@ -1,23 +1,18 @@
-import {MongoClient} from 'mongodb'
-
-const url = 'mongodb://localhost:27017'
-const dbName = 'dashboard'
-
-async function main() {
-  const client = new MongoClient(url)
-
+const { MongoClient } = require("mongodb");
+// Replace the uri string with your connection string.
+const uri = "<connection string uri>";
+const client = new MongoClient(uri);
+async function run() {
   try {
-    await client.connect();
-    console.log(await client.db().admin().listDatabases())
-  } catch (e) {
-    console.error(e)
+    const database = client.db('sample_mflix');
+    const movies = database.collection('movies');
+    // Query for a movie that has the title 'Back to the Future'
+    const query = { title: 'Back to the Future' };
+    const movie = await movies.findOne(query);
+    console.log(movie);
   } finally {
-    await client.close()
-    
+    // Ensures that the client will close when you finish/error
+    await client.close();
   }
-
-
 }
-
-await main()
-console.log('running?')
+run().catch(console.dir);

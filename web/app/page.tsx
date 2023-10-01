@@ -6,7 +6,7 @@ import React from 'react'
 import {Card} from './comps/card'
 import {Section} from './comps/section'
 import {v4 as uuidv4} from 'uuid'
-import * as db from './db'
+// import * as db from './db'
 import "./globals.css"
 
 // import data from '../data'
@@ -32,8 +32,8 @@ export default function Home() {
 
   React.useEffect(() => {
     (async () => {
-      const data = await db.getUserData()
-      setSections(data)
+      // const data = await db.getUserData()
+      // setSections(data)
     })()
 
   }, [toggle])
@@ -47,7 +47,7 @@ export default function Home() {
   async function addSection(e) {
     e.preventDefault()
 
-    await db.addSection(newSection)
+    // await db.addSection(newSection)
 
     setToggle((o) => o+1)
   }
