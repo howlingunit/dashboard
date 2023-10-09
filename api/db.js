@@ -39,15 +39,25 @@ export async function getUserdata(req, res) {
 
 
 
-  
   const options = {
     sort: { name: 1 },
     projection: { _id: 0, name: 1, cards: 1 },
   };
 
-  const sections = userData.findOne({name: 'test'}, options);
+  const sections = await userData.find({});
+
+
+  const output = []
+
+  for await (const doc of sections) {
+    output.push(doc)
+  }
+
+  console.log(await sections)
+  res.json(output)
 
   await client.close();
 
-  res.json(sections)
+
+
 }
