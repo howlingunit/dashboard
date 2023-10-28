@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 
 
 const uri = "mongodb://localhost:27017/";
@@ -6,26 +6,30 @@ const client = new MongoClient(uri);
 const db = 'dashboard_db'
 
 // temp vars
-const user = 'u1'
+const tempUser = 'u1'
 
 export async function new_section(req, res) {
 
   const database = client.db(db);
-  const userData = database.collection(user);
+  const userData = database.collection(tempUser);
 
   const section = {
-    name: 'test',
+    name: 'test2',
     cards: {card1:{
         title: 'card 1',
         link: '',
+        text: 'this is a card yayy :)'
+      },
+      card2:{
+        title: 'card 2',
+        link: 'https://google.com',
         text: 'this is a card yayy :)'
       }}
     
   }
 
-  const sectionID = await userData.insertOne(section)
+  const sectionID = await userData.insertOne(section);
 
-  await client.close();
 
   res.json(sectionID)
 
@@ -33,31 +37,75 @@ export async function new_section(req, res) {
 
 }
 
-export async function getUserdata(req, res) {
+export async function addSection(req, res) {
+  const { name, user } = req.body
+  
+
+  if (!name || !user) {res.status(400); res.json('dude please provide name and user'); return}
+
   const database = client.db(db);
   const userData = database.collection(user);
 
+  const newSection = {
+    name: name,
+    cards: {}
+  }
+
+  const sectionID = await userData.insertOne(newSection);
+
+  res.json('OK')
+}
+
+export async function addCard(req, res) {
+  const { user, section, title, link, text} = req.body
+  // only these to start
+  if (!user) {res.status(400); res.json('dude please provide a user'); return}
 
 
-  const options = {
-    sort: { name: 1 },
-    projection: { _id: 0, name: 1, cards: 1 },
-  };
+  const database = client.db(db);
+  const userData = database.collection(user);
 
-  const sections = await userData.find({});
+  const sections = [];
+
+  const cursor = await userData.find({}, {projection: {_id: 1}});
+
+  for await (const sectionId of cursor) {
+    const objSectionId = sectionId['_id'].toString()
+    sections.push(objSectionId)
+  }
+
+  if (!sections.includes(section)) {res.status(400); res.json('dude please provide a valid section ID'); return}
+
+
+  const newCard = {title, link, text}
+
+  
+
+  res.json(newCard)
+}
+ 
+export async function getUserdata(req, res) {
+  const user = req.query.user
+  if (!user) {res.status(400); res.json('dude please provide a user'); return}
+
+
+  const database = client.db(db);
+  const userData = database.collection(user);
+
+  const cursor = await userData.find({});
 
 
   const output = []
 
-  for await (const doc of sections) {
-    output.push(doc)
+  for await (const section of cursor) {
+    output.push(section)  
   }
 
-  console.log(await sections)
-  res.json(output)
+  
+  
+  res.json(output);
 
-  await client.close();
-
+  return
 
 
 }
