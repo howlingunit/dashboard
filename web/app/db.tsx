@@ -1,7 +1,6 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
 export async function getUserData(){
-  console.log(BASE_URL)
 
   const req = await fetch(`${BASE_URL}/getUserData?user=u1`)
 
@@ -22,4 +21,16 @@ export async function addSection(name:string) {
   });
 
   
+}
+
+export async function removeSection(secId: string) {
+  const payload = {user: 'u1', secId}
+
+  const req  = await fetch(`${BASE_URL}/remove-section`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/JSON'
+    },
+    body: JSON.stringify(payload)
+  });
 }

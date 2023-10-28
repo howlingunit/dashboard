@@ -26,7 +26,7 @@ export default function Home() {
     items: card[]
   }
 
-  const [sectionData, setSections] = React.useState<secDat>()
+  const [sectionData, setSections] = React.useState<secDat[]>()
   const [newSection, setNewSection] = React.useState<string>('')
   const [toggle, setToggle] = React.useState(1)
 
@@ -57,13 +57,14 @@ export default function Home() {
   function createSections(){
     const sections: React.ReactNode[] = [];
 
+
     for(const section in sectionData){
       const cardElems: React.ReactNode[] = [];
       const cards = sectionData[section]['cards']
       for (const card in cards){
         cardElems.push((<Card title={cards[card]['title']} text={cards[card]['text']} link={cards[card]['link']} key={card} id={card} secID={section} img={cards[card]['img']} setToggle={setToggle} />))
       }
-      sections.push((<Section title={sectionData[section]['name']} cards={cardElems} key={section} id={section} setToggle={setToggle} />))
+      sections.push((<Section title={sectionData[section]['name']} cards={cardElems} key={sectionData[section]['_id']} id={sectionData[section]['_id']} setToggle={setToggle} />))
     }
 
     return sections

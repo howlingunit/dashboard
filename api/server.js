@@ -18,6 +18,8 @@ app.post('/add-section', express.json(), db.addSection);
 
 app.post('/add-card', express.json(), db.addCard);
 
+app.post('/remove-section', express.json(), db.remSections)
+
 app.get('/getUserData', db.getUserdata);
 
 app.listen(8080);
