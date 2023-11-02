@@ -14,16 +14,17 @@ import "./globals.css"
 
 export default function Home() {
   interface card {
-    title: string
-    text: string
-    link: URL
-    img: string
+    title: string;
+    text: string;
+    link: URL;
+    img: string;
+    id: string;
   }
 
   interface secDat {
-    id: number
-    name: string
-    items: card[]
+    id: number;
+    name: string;
+    items: card[];
   }
 
   const [sectionData, setSections] = React.useState<secDat[]>()
@@ -62,7 +63,7 @@ export default function Home() {
       const cardElems: React.ReactNode[] = [];
       const cards = sectionData[section]['cards']
       for (const card in cards){
-        cardElems.push((<Card title={cards[card]['title']} text={cards[card]['text']} link={cards[card]['link']} key={card} id={card} secID={section} img={cards[card]['img']} setToggle={setToggle} />))
+        cardElems.push((<Card title={cards[card]['title']} text={cards[card]['text']} link={cards[card]['link']} key={cards[card]['id']} id={cards[card]['id']} secID={sectionData[section]['_id']} img={cards[card]['img']} setToggle={setToggle} />))
       }
       sections.push((<Section title={sectionData[section]['name']} cards={cardElems} key={sectionData[section]['_id']} id={sectionData[section]['_id']} setToggle={setToggle} />))
     }
@@ -73,7 +74,7 @@ export default function Home() {
   const sections = createSections()
 
   return (
-    <main className="min-h-screen p-10  bg-black text-white grid grid-cols-2 ">
+    <main className="p-10  grid grid-cols-2 ">
       {sections}
       <div className='relative flex flex-col items-center justify-start gap-4 m-5 border-4 rounded-2xl border-gray-800 p-5 pt-5'>
         <h1 className=' text-4xl bg-black -translate-y-11 px-10 rounded-full'>Add section</h1>

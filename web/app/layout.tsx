@@ -55,7 +55,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-black text-white`}>
         <nav className='flex gap-3 items-center flex-col'>
           <ul className='flex font-mono justify-evenly w-full bg-black'>
             {setLinks}

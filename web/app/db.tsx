@@ -34,3 +34,28 @@ export async function removeSection(secId: string) {
     body: JSON.stringify(payload)
   });
 }
+
+export async function addCard(section:string, card:{name?: string; url?: string; text?: string}) {
+  const payload = {user: 'u1', section, ...card}
+
+
+  const req  = await fetch(`${BASE_URL}/add-card`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/JSON'
+    },
+    body: JSON.stringify(payload)
+  });
+}
+
+export async function removeCard(section:string, card:string) {
+  const payload = {user: 'u1', section, card}
+
+  const req  = await fetch(`${BASE_URL}/remove-card`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/JSON'
+    },
+    body: JSON.stringify(payload)
+  });
+}

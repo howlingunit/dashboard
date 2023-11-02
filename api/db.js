@@ -1,4 +1,5 @@
 import { MongoClient, ObjectId } from "mongodb";
+import { v4 as uuid } from "uuid";
 
 
 const uri = "mongodb://localhost:27017/";
@@ -78,7 +79,7 @@ export async function addCard(req, res) {
   if (!sections.includes(section)) {res.status(400); res.json('dude please provide a valid section ID'); return}
 
 
-  const newCard = {title, link, text}
+  const newCard = {id: uuid(), title, link, text}
 
   const filter = {_id: new ObjectId(section)}
   const update = {$push: {cards:newCard}}
@@ -88,10 +89,41 @@ export async function addCard(req, res) {
 
   res.json(newCard)
 }
+
+export async function remCard(req, res) {
+  const {user, section, card} = req.body
+
+  if (!user) {res.status(400); res.json('dude please provide a user'); return} 
+
+
+  const database = client.db(db);
+  const userData = database.collection(user);
+
+  const sections = [];
+
+  const cursor = await userData.find({}, {projection: {_id: 1}});
+
+  for await (const sectionId of cursor) {
+    const objSectionId = sectionId['_id'].toString()
+    sections.push(objSectionId)
+  }
+
+  if (!sections.includes(section)) {res.status(400); res.json('dude please provide a valid section ID'); return}
+
+  const filter = {_id: new ObjectId(section)}
+  const update = {$pull: {cards:{id: card}}}
+ 
+
+  userData.updateOne(filter, update)
+
+
+
+  res.json('OK')
+}
  
 export async function getUserdata(req, res) {
   const user = req.query.user
-  if (!user) {res.status(400); res.json('dude please provide a user'); return}
+  if (!user) {res.status(400); res.json('dude please provide a user'); return} 
 
 
   const database = client.db(db);
@@ -105,7 +137,7 @@ export async function getUserdata(req, res) {
   for await (const section of cursor) {
     output.push(section)  
   }
-
+ 
   
   
   res.json(output);
@@ -135,7 +167,6 @@ export async function remSections(req, res) {
   if (!sections.includes(secId)) {res.status(400); res.json('dude please provide a valid section ID'); return}
 
   const objSecId = new ObjectId(secId)
-  console.log(objSecId)
 
   const query = { _id: objSecId }
 
@@ -143,3 +174,4 @@ export async function remSections(req, res) {
 
   res.json('WIP')
 }
+ 
