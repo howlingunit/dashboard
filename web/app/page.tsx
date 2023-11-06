@@ -5,7 +5,6 @@ import {type ReactNode} from 'react'
 import React from 'react'
 import {Card} from './comps/card'
 import {Section} from './comps/section'
-import {v4 as uuidv4} from 'uuid'
 import * as db from './db'
 import "./globals.css"
 
@@ -22,9 +21,9 @@ export default function Home() {
   }
 
   interface secDat {
-    id: number;
+    _id: string;
     name: string;
-    items: card[];
+    cards: card[];
   }
 
   const [sectionData, setSections] = React.useState<secDat[]>()
@@ -39,13 +38,13 @@ export default function Home() {
 
   }, [toggle])
 
-  function handleChange(e) {
+  function handleChange(e:any) {
     const value:string = e.target.value;
 
       setNewSection(value)
   }
 
-  async function addSection(e) {
+  async function addSection(e:any) {
     e.preventDefault()
 
     await db.addSection(newSection)
@@ -60,12 +59,13 @@ export default function Home() {
 
 
     for(const section in sectionData){
+      const sectionIndex = Number(section)
       const cardElems: React.ReactNode[] = [];
-      const cards = sectionData[section]['cards']
+      const cards = sectionData[sectionIndex]['cards']
       for (const card in cards){
-        cardElems.push((<Card title={cards[card]['title']} text={cards[card]['text']} link={cards[card]['link']} key={cards[card]['id']} id={cards[card]['id']} secID={sectionData[section]['_id']} img={cards[card]['img']} setToggle={setToggle} />))
+        cardElems.push((<Card title={cards[card]['title']} text={cards[card]['text']} link={cards[card]['link']} key={cards[card]['id']} id={cards[card]['id']} secID={sectionData[sectionIndex]['_id']} img={cards[card]['img']} setToggle={setToggle} />))
       }
-      sections.push((<Section title={sectionData[section]['name']} cards={cardElems} key={sectionData[section]['_id']} id={sectionData[section]['_id']} setToggle={setToggle} />))
+      sections.push((<Section title={sectionData[sectionIndex]['name']} cards={cardElems} key={sectionData[sectionIndex]['_id']} id={sectionData[sectionIndex]['_id']} setToggle={setToggle} />))
     }
 
     return sections

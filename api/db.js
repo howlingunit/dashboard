@@ -1,10 +1,14 @@
 import { MongoClient, ObjectId } from "mongodb";
 import { v4 as uuid } from "uuid";
+import 'dotenv/config';
 
 
-const uri = "mongodb://localhost:27017/";
+
+const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri);
 const db = 'dashboard_db'
+
+console.log(uri)
 
 // temp vars
 const tempUser = 'u1'

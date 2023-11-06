@@ -1,0 +1,19 @@
+FROM node:20-alpine
+
+ARG MONGO_URI
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+RUN echo "MONGO_URI=$MONGO_URI" > .env && cat .env
+
+COPY . .
+
+ENV PORT=8080
+
+EXPOSE 8080
+
+CMD [ "node", "server.js"]

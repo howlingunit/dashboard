@@ -5,7 +5,6 @@ export async function getUserData(){
   const req = await fetch(`${BASE_URL}/getUserData?user=u1`)
 
   const data = await req.json()
-  console.log(`${BASE_URL} gives ${data}`)
   return data;
 }
 

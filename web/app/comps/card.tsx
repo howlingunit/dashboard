@@ -29,7 +29,7 @@ export function Card(props:myProps) {
       if(props.img) {
         // const getImg = await db.getImg(props.img)
         const getImg = null
-        setImg(getImg)
+        // setImg(getImg)
       }
     })()
 
