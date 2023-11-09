@@ -11,7 +11,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: examplepassword
     networks:
-      - mynetwork
+      - dashboard-private
 
   api:
     build:
@@ -24,21 +24,27 @@ services:
     environment:
       MONGO_URI: mongodb://root:examplepassword@mongodb:27017
     networks:
-      - mynetwork
+      - dashboard-private
+      - dashboard-public
 
   web:
     build:
       context: ./web
+      args:
+        NEXT_PUBLIC_API_URL: "http://localhost:8080"
     container_name: web
     ports:
       - "3000:3000"
-    environment:
-      NEXT_PUBLIC_API_URL: "http://localhost:8080"
     networks:
-      - mynetwork
+      - dashboard-public
 
 volumes:
   mongodb_data:
 
 networks:
-  mynetwork:
+  dashboard-public:
+    driver: bridge
+  dashboard-private:
+    driver: bridge
+    internal: true
+
