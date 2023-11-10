@@ -12,6 +12,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: examplepassword
     networks:
       - dashboard-private
+    restart: unless-stoped
 
   api:
     build:
@@ -26,6 +27,7 @@ services:
     networks:
       - dashboard-private
       - dashboard-public
+    restart: unless-stoped
 
   web:
     build:
@@ -37,6 +39,7 @@ services:
       - "3000:3000"
     networks:
       - dashboard-public
+    restart: unless-stoped
 
 volumes:
   mongodb_data:
