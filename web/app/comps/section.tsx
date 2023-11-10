@@ -35,11 +35,11 @@ export function Section(props:myProps) {
     img: null
   })
 
-  function handleChange(e) {
+  function handleChange(e:any) {
     const {name, value} = e.target;
 
     if (name == 'img') {
-      setImg(e.target.files[0])
+      // setImg(e.target.files[0])
       return
     }else {
 
@@ -55,25 +55,24 @@ export function Section(props:myProps) {
 
 
   async function uploadImg() {
-    const imgId = await db.uploadImg(img);
+    // const imgId = await db.uploadImg(img);
 
-    console.log(imgId)
+    // console.log(imgId)
 
     await new Promise((resolve) => {
       // Use setState to update the state
       setNewCard((oldCard) => {
-        oldCard.img = imgId
+        // oldCard.img = imgId
 
         console.log(oldCard)
         resolve(oldCard);
         return oldCard
       });
-    console.log(newCard)
     })
   }
 
 
-  async function addCard(e) {
+  async function addCard(e:any) {
     e.preventDefault();
 
     if(img){

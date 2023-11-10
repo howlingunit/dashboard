@@ -17,11 +17,7 @@ interface myProps {
 export function Card(props:myProps) {
 
   async function removeCard(){
-    await db.removeCard(props.id, props.secID)
-
-    if (props.img){
-      await db.removeImg(props.img)
-    }
+    await db.removeCard(props.secID, props.id)
 
     props.setToggle((o:number) => o+1)
   }
@@ -31,8 +27,9 @@ export function Card(props:myProps) {
   React.useEffect(() => {
     (async () => {
       if(props.img) {
-        const getImg = await db.getImg(props.img)
-        setImg(getImg)
+        // const getImg = await db.getImg(props.img)
+        const getImg = null
+        // setImg(getImg)
       }
     })()
 

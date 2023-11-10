@@ -44,7 +44,7 @@ export default function RootLayout({
   const setLinks: ReactNode =  links.map((link) => {
       return (
         <Link href={link.link} key={link.name}>
-          <div className='text-white p-2 px-5 bg-[#00b4d8] rounded-t hover:bg-[#254058] duration-500'>
+          <div className='text-white p-2 px-5 bg-[#00b4d8] rounded-b hover:bg-[#6cbaff] duration-200'>
             <p>{link.name}</p>
           </div>
       </Link>
@@ -55,10 +55,9 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <nav className='bg-[#03045e] flex gap-3 items-center flex-col pt-2'>
-          <h1 className='text-lg font-bold text-white'>web with style</h1>
-          <ul className='flex font-mono justify-evenly w-full'>
+      <body className={`${inter.className} bg-black text-white`}>
+        <nav className='flex gap-3 items-center flex-col'>
+          <ul className='flex font-mono justify-evenly w-full bg-black'>
             {setLinks}
           </ul>
         </nav>
