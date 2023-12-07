@@ -74,7 +74,7 @@ export default function Home() {
   const sections = createSections()
 
   return (
-    <main className="p-10  grid grid-cols-2 ">
+    <main className="p-10  grid md:grid-cols-2 ">
       {sections}
       <div className='relative flex flex-col items-center justify-start gap-4 m-5 border-4 rounded-2xl border-gray-800 p-5 pt-5'>
         <h1 className=' text-4xl bg-black -translate-y-11 px-10 rounded-full'>Add section</h1>
