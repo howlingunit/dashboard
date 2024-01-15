@@ -1,8 +1,20 @@
 import express from 'express';
-import * as db from './db.js'
+import * as db from './db.js';
+import multer from 'multer';
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+const upload = multer({ storage: storage })
 
 const app = express();
+
+app.use('/uploads', express.static('uploads'));
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
@@ -13,6 +25,8 @@ app.use((req, res, next) => {
 })
 
 app.get('/testing', db.new_section);
+
+app.post('/test-pic', upload.single('test'), (req, res) => {res.send('hi')})
 
 app.post('/add-section', express.json(), db.addSection);
 
